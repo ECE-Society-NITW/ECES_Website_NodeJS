@@ -13,25 +13,55 @@ const eventSchema = new Schema({
   createdOn: { type: Date },
 });
 
-eventSchema.pre('save', function (next) {
-  this.event_id = uuid.v1();
-  this.createdOn = new Date();
-  next();
-});
-
+// eventSchema.pre('save', function (next) {
+//   // Generate a new UUID only if event_id is not present
+//   if (!this.event_id) {
+//     this.event_id = uuid.v1();
+//   }
+//   this.createdOn = new Date();
+//   next();
+// });
 const EventModel = model("Event", eventSchema);
 
 // Add mock data
 const mockEvents = [
- 
   {
+
+    event_id:1,
     title: 'Event 1',
+    photo: 'https://cdn.britannica.com/92/212692-050-D53981F5/labradoodle-dog-stick-running-grass.jpg',
     dateTime: new Date('2023-12-31T19:00:00'),
     location: 'ALC',
     description: 'Technozion opening ceremony',
     targetAudience: 2023,
   },
-  // Add more mock events as needed
+  {
+    event_id:2,
+    title: 'Event 2',
+    photo: 'https://cdn.britannica.com/92/212692-050-D53981F5/labradoodle-dog-stick-running-grass.jpg',
+    dateTime: new Date('2023-12-31T20:00:00'),
+    location: 'Main Auditorium',
+    description: 'Tech Expo 2023',
+    targetAudience: 2023,
+  },
+  {
+    event_id:3,
+    title: 'Event 3',
+    photo: 'https://cdn.britannica.com/92/212692-050-D53981F5/labradoodle-dog-stick-running-grass.jpg',
+    dateTime: new Date('2023-12-31T21:00:00'),
+    location: 'Outdoor Stage',
+    description: 'Music Night',
+    targetAudience: 2023,
+  },
+  {
+    event_id:4,
+    title: 'Event 4',
+    photo: 'https://cdn.britannica.com/92/212692-050-D53981F5/labradoodle-dog-stick-running-grass.jpg',
+    dateTime: new Date('2023-12-31T22:00:00'),
+    location: 'Workshop Room',
+    description: 'Coding Workshop',
+    targetAudience: 2023,
+  },
 ];
 
 // Use the promise returned by insertMany
