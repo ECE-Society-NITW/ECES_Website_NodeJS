@@ -13,14 +13,7 @@ const eventSchema = new Schema({
   createdOn: { type: Date },
 });
 
-// eventSchema.pre('save', function (next) {
-//   // Generate a new UUID only if event_id is not present
-//   if (!this.event_id) {
-//     this.event_id = uuid.v1();
-//   }
-//   this.createdOn = new Date();
-//   next();
-// });
+
 const EventModel = model("Event", eventSchema);
 
 // Add mock data
