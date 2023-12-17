@@ -13,7 +13,8 @@ app.use(morgan('dev'))
 app.use(cors())
 
 // Routes
-// app.use("/api/events", EventRoutes)
+const EventRoutes = require('./routes/event_routes');
+app.use("/api/events", EventRoutes)
 
 // Initial Connections  
 const URL = process.env.MONGO_DB
