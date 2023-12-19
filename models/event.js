@@ -4,13 +4,13 @@ const uuid = require('uuid');
 
 const eventSchema = new Schema({
   event_id: { type: String, unique: true },
-  title: { type: String, required: false },
+  title: { type: String, required: true },
   photo: { type: String, default: "" },
-  dateTime: { type: Date, required: false },
+  dateTime: { type: Date, required: true },
   location: { type: String, default: "" },
   description: { type: String, default: "" },
   targetAudience: { type: Number, default: 0 },
-  createdOn: { type: Date },
+  createdOn: { type: Date }
 });
 
 eventSchema.pre('save', function (next) {

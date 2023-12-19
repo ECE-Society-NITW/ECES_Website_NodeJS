@@ -12,7 +12,7 @@ const EventController = {
 
   addEvent: async function (req, res) {
     try {
-      console.log(req.body)
+      console.log(req)
       const { title, dateTime } = req.body;
       const newEvent = new EventModel({ title, dateTime });
 
