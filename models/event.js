@@ -10,7 +10,7 @@ const eventSchema = new Schema({
   location: { type: String, default: "" },
   description: { type: String, default: "" },
   targetAudience: { type: Number, default: 0 },
-  createdOn: { type: Date },
+  createdOn: { type: Date }
 });
 
 eventSchema.pre('save', function (next) {
