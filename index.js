@@ -14,7 +14,13 @@ app.use(cors())
 
 // Routes
 const EventRoutes = require('./routes/event_routes');
+const AdminRoutes = require('./routes/admin_routes')
 app.use("/api/events", EventRoutes)
+app.use("/admin", AdminRoutes)
+
+app.get("/", (req, res) => {
+    res.send("Working...")
+})
 
 // Initial Connections  
 const URL = process.env.MONGO_DB
