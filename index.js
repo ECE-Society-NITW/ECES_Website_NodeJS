@@ -15,7 +15,7 @@ app.use(morgan('dev'))
 app.use(cors())
 connectToDB()
 app.use(bodyParser.json())
-
+app.use(express.urlencoded({ extended: true }));
 // Routes
 const EventRoutes = require('./routes/event_routes');
 const UserRoutes = require('./routes/user_routes')

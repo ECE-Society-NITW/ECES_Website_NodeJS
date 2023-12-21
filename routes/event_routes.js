@@ -1,8 +1,17 @@
-const EventController = require('../controllers/event_controller')
-const EventRoutes = require('express').Router();
+const EventController = require("../controllers/event_controller");
+const express = require("express");
+const multer = require("multer");
 
-EventRoutes.get('/', EventController.getEvent);
-EventRoutes.post('/', EventController.addEvent);
-EventRoutes.delete('/', EventController.removeEvent);
+const EventRoutes = express.Router();
+const upload = multer({ dest: "../uploads" });
+
+
+EventRoutes.get("/", EventController.getEvent);
+EventRoutes.post("/", upload.single("photo"), EventController.addEvent);
+EventRoutes.put("/:eventId", EventController.updateEvent); 
+EventRoutes.patch("/:eventId", EventController.updateEvent); 
+EventRoutes.delete("/:eventId", EventController.removeEvent);
+
+
 
 module.exports = EventRoutes;
