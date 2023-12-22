@@ -88,8 +88,8 @@ const EventController = {
   
       if (isUserRegistered) {
         return res.json({
-          success: true,
-          message: 'User already registered for this event',
+          success: false,
+          message: 'Already registered!',
         });
       }
   
@@ -105,7 +105,7 @@ const EventController = {
   
       return res.json({
         success: true,
-        message: 'Successfully registered for the event',
+        message: `Successfully registered to ${updatedEvent.title}`,
       });
     } catch (ex) {
       return res.json({ success: false, message: ex });
