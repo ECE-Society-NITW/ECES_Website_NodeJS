@@ -81,12 +81,10 @@ const EventController = {
   },
   addUser: async function (req, res) {
     try {
-      const { credential } = req.body;
-      console.log(req.body);
-      const { email, name } = jwt.decode(credential);
-      const eventId = req.params.eventId;
-      const existingEvent = await EventModel.findById(eventId);
-
+      const { email, name } = req.body.user;
+      const event_id = req.params.eventId;
+      const existingEvent = await EventModel.findOne({event_id});
+      console.log(existingEvent);
       if (!existingEvent) {
         return res.json({ success: false, message: "Event not found" });
       }
