@@ -45,12 +45,12 @@ const EventController = {
 
   updateEvent: async function (req, res) {
     try {
-      const eventId = req.params.eventId;
-      const updatedEvent = await EventModel.findOneAndUpdate(
-        { _id: eventId },
-        req.body,
-        { new: true }
-      );
+        const event_id = req.params.eventId;
+        const updatedEvent = await EventModel.findOneAndUpdate(
+          { event_id },
+          req.body,
+          { new: true }
+        );
 
       return res.json({
         success: true,
@@ -64,12 +64,11 @@ const EventController = {
 
   removeEvent: async function (req, res) {
     try {
-      const eventId = req.params.eventId;
-      const removedEvent = await EventModel.findByIdAndDelete(eventId);
+      const event_id = req.params.eventId;
+      const removedEvent = await EventModel.findOneAndDelete({event_id});
       if (!removedEvent) {
         return res.json({ success: false, message: "Event not found" });
       }
-
       return res.json({
         success: true,
         data: removedEvent,
