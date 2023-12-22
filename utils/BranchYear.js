@@ -96,36 +96,36 @@ const parseStudentEmail = (email) => {
 
 module.exports = { parseStudentEmail }
 
-const email1 = "sd22ecb0a57@student.nitw.ac.in";
-const email2 = "mb942076@student.nitw.ac.in";
-const email3 = "ab2121211@student.nitw.ac.in"
+// const email1 = "sd22ecb0a57@student.nitw.ac.in";
+// const email2 = "mb942076@student.nitw.ac.in";
+// const email3 = "ab2121211@student.nitw.ac.in"
 
-let result = parseStudentEmail(email1);
-if (result.isValid) {
-    console.log("Student Information:");
-    console.log("Year of Joining:", result.details.yearOfJoining);
-    console.log("Branch:", result.details.branch);
-    console.log("Course:", result.details.course);
-} else {
-    console.log(result.message);
-}
+// let result = parseStudentEmail(email1);
+// if (result.isValid) {
+//     console.log("Student Information:");
+//     console.log("Year of Joining:", result.details.yearOfJoining);
+//     console.log("Branch:", result.details.branch);
+//     console.log("Course:", result.details.course);
+// } else {
+//     console.log(result.message);
+// }
 
-result = parseStudentEmail(email2);
-if (result.isValid) {
-    console.log("Student Information:");
-    console.log("Year of Joining:", result.details.yearOfJoining);
-    console.log("Branch:", result.details.branch);
-    console.log("Course:", result.details.course);
-} else {
-    console.log(result.message);
-}
+// result = parseStudentEmail(email2);
+// if (result.isValid) {
+//     console.log("Student Information:");
+//     console.log("Year of Joining:", result.details.yearOfJoining);
+//     console.log("Branch:", result.details.branch);
+//     console.log("Course:", result.details.course);
+// } else {
+//     console.log(result.message);
+// }
 
-result = parseStudentEmail(email3);
-if (result.isValid) {
-    console.log("Student Information:");
-    console.log("Year of Joining:", result.details.yearOfJoining);
-    console.log("Branch:", result.details.branch);
-    console.log("Course:", result.details.course);
-} else {
-    console.log(result.message);
-}
+// result = parseStudentEmail(email3);
+// if (result.isValid) {
+//     console.log("Student Information:");
+//     console.log("Year of Joining:", result.details.yearOfJoining);
+//     console.log("Branch:", result.details.branch);
+//     console.log("Course:", result.details.course);
+// } else {
+//     console.log(result.message);
+// }
