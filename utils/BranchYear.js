@@ -57,22 +57,29 @@ const parseStudentEmail = (email) => {
         console.log(rollNo);
         if (checkNumeric(rollNo))
         {
-            // old roll number format (Only Btech though)
-            try {
-                result.details.yearOfJoining = "20" + rollNo.slice(2, 4);
-              
-                const data = fs.readFileSync('./utils/list.json', 'utf8');
-              
+            if (rollNo.length == 6) {
+                // old roll number format (Only Btech though)
                 try {
-                  const list = JSON.parse(data);
-                  result.details.branch = branchMapping[list[rollNo]];
-                  result.details.course = "B.Tech.";
-                } catch (error) {
-                  console.log("Couldn't parse list");
+                    result.details.yearOfJoining = "20" + rollNo.slice(2, 4);
+                    
+                    // path to the list.json
+                    const data = fs.readFileSync('./utils/list.json', 'utf8');
+                
+                    try {
+                    const list = JSON.parse(data);
+                    result.details.branch = rollNo in list ? branchMapping[list[rollNo]] : "Unknown Branch";
+                    result.details.course = "B.Tech.";
+                    } catch (error) {
+                    console.log("Couldn't parse list");
+                    }
+                } catch (err) {
+                    console.log(`Error: ${err}`);
                 }
-              } catch (err) {
-                console.log(`Error: ${err}`);
-              }
+            } else {
+                result.details.yearOfJoining = "pre"
+                result.details.branch = "Unknown Branch"
+                result.details.course = "Unknown Course"
+            }
         }
         else
         {
@@ -89,25 +96,36 @@ const parseStudentEmail = (email) => {
 
 module.exports = { parseStudentEmail }
 
-// const email1 = "sd22ecb0a57@student.nitw.ac.in";
-// const email2 = "mb942076@student.nitw.ac.in";
+const email1 = "sd22ecb0a57@student.nitw.ac.in";
+const email2 = "mb942076@student.nitw.ac.in";
+const email3 = "ab2121211@student.nitw.ac.in"
 
-// let result = parseStudentEmail(email1);
-// if (result.isValid) {
-//     console.log("Student Information:");
-//     console.log("Year of Joining:", result.details.yearOfJoining);
-//     console.log("Branch:", result.details.branch);
-//     console.log("Course:", result.details.course);
-// } else {
-//     console.log(result.message);
-// }
+let result = parseStudentEmail(email1);
+if (result.isValid) {
+    console.log("Student Information:");
+    console.log("Year of Joining:", result.details.yearOfJoining);
+    console.log("Branch:", result.details.branch);
+    console.log("Course:", result.details.course);
+} else {
+    console.log(result.message);
+}
 
-// result = parseStudentEmail(email2);
-// if (result.isValid) {
-//     console.log("Student Information:");
-//     console.log("Year of Joining:", result.details.yearOfJoining);
-//     console.log("Branch:", result.details.branch);
-//     console.log("Course:", result.details.course);
-// } else {
-//     console.log(result.message);
-// }
+result = parseStudentEmail(email2);
+if (result.isValid) {
+    console.log("Student Information:");
+    console.log("Year of Joining:", result.details.yearOfJoining);
+    console.log("Branch:", result.details.branch);
+    console.log("Course:", result.details.course);
+} else {
+    console.log(result.message);
+}
+
+result = parseStudentEmail(email3);
+if (result.isValid) {
+    console.log("Student Information:");
+    console.log("Year of Joining:", result.details.yearOfJoining);
+    console.log("Branch:", result.details.branch);
+    console.log("Course:", result.details.course);
+} else {
+    console.log(result.message);
+}
