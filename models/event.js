@@ -1,6 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
-const uuid = require('uuid');
+const uuid = require("uuid");
+
+const registeredUserSchema = new Schema({
+  email: { type: String, required: true },
+  name: { type: String, required: true },
+});
 
 const eventSchema = new Schema({
   event_id: { type: String, unique: true },
@@ -10,10 +15,11 @@ const eventSchema = new Schema({
   location: { type: String, default: "" },
   description: { type: String, default: "" },
   targetAudience: { type: Number, default: 0 },
-  createdOn: { type: Date }
+  createdOn: { type: Date },
+  registeredUsers: [registeredUserSchema],
 });
 
-eventSchema.pre('save', function (next) {
+eventSchema.pre("save", function (next) {
   this.event_id = uuid.v1();
   this.createdOn = new Date();
   next();

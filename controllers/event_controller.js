@@ -1,5 +1,5 @@
 const EventModel = require("../models/event");
-
+const jwt = require("jsonwebtoken");
 const EventController = {
   getEvent: async function (req, res) {
     try {
@@ -74,6 +74,30 @@ const EventController = {
         success: true,
         data: removedEvent,
         message: "Event removed successfully",
+      });
+    } catch (ex) {
+      return res.json({ success: false, message: ex });
+    }
+  },
+  addUser: async function (req, res) {
+    try {
+      const { credential } = req.body;
+      console.log(req.body);
+      const { email, name } = jwt.decode(credential);
+      const eventId = req.params.eventId;
+      const existingEvent = await EventModel.findById(eventId);
+
+      if (!existingEvent) {
+        return res.json({ success: false, message: "Event not found" });
+      }
+
+      existingEvent.registeredUsers.push({ email, name });
+      const updatedEvent = await existingEvent.save();
+
+      return res.json({
+        success: true,
+        data: updatedEvent,
+        message: "User added to event successfully",
       });
     } catch (ex) {
       return res.json({ success: false, message: ex });
