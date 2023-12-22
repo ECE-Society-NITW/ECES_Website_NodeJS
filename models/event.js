@@ -18,9 +18,10 @@ const eventSchema = new Schema({
   createdOn: { type: Date },
   registeredUsers: [registeredUserSchema],
 });
-
-eventSchema.pre("save", function (next) {
-  this.event_id = uuid.v1();
+eventSchema.pre('save', function (next) {
+  if (this.isNew) {
+    this.event_id = uuid.v1(); 
+  }
   this.createdOn = new Date();
   next();
 });

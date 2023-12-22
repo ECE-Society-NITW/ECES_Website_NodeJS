@@ -83,24 +83,37 @@ const EventController = {
     try {
       const { email, name } = req.body.user;
       const event_id = req.params.eventId;
-      const existingEvent = await EventModel.findOne({event_id});
-      console.log(existingEvent);
-      if (!existingEvent) {
-        return res.json({ success: false, message: "Event not found" });
+      const isUserRegistered = await EventModel.exists({
+        event_id,
+        'registeredUsers.email': email,
+      });
+  
+      if (isUserRegistered) {
+        return res.json({
+          success: true,
+          message: 'User already registered for this event',
+        });
       }
-
-      existingEvent.registeredUsers.push({ email, name });
-      const updatedEvent = await existingEvent.save();
-
+  
+      const updatedEvent = await EventModel.findOneAndUpdate(
+        { event_id },
+        { $push: { registeredUsers: { email, name } } },
+        { new: true }
+      );
+  
+      if (!updatedEvent) {
+        return res.json({ success: false, message: 'Event not found' });
+      }
+  
       return res.json({
         success: true,
-        data: updatedEvent,
-        message: "User added to event successfully",
+        message: 'Successfully registered for the event',
       });
     } catch (ex) {
       return res.json({ success: false, message: ex });
     }
   },
+  
 };
 
 module.exports = EventController;
