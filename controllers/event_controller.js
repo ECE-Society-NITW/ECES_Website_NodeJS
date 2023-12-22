@@ -1,5 +1,4 @@
 const EventModel = require("../models/event");
-const jwt = require("jsonwebtoken");
 const EventController = {
   getEvent: async function (req, res) {
     try {
