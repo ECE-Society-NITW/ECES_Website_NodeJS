@@ -11,7 +11,7 @@ const eventSchema = new Schema({
   event_id: { type: String, unique: true },
   title: { type: String, required: true },
   photo: { type: String, default: "" },
-  dateTime: { type: Date, default: new Date() },
+  dateTime: { type: Date, default: new Date(),required:true },
   location: { type: String, default: "" },
   description: { type: String, default: "" },
   targetAudience: { type: Number, default: 0 },
