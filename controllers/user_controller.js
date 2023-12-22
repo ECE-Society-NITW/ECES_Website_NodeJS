@@ -13,7 +13,6 @@ const UserController = {
                         res.json(data)
                     else
                         res.json({ msg: "User not found!" })
-
                 })
                 .catch(err => console.log(err))
         } catch (ex) {

@@ -12,9 +12,10 @@ const EventController = {
 
   addEvent: async function (req, res) {
     try {
-      console.log(req)
-      const { title, dateTime } = req.body;
-      const newEvent = new EventModel({ title, dateTime });
+      const { name, date } = req.body;
+      const newEvent = new EventModel({ name, date });
+
+      await newEvent.save();
 
       return res.json({ success: true, data: newEvent, message: "Event added successfully" });
     } catch (ex) {
