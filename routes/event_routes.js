@@ -12,5 +12,6 @@ EventRoutes.put("/:eventId", EventController.updateEvent);
 EventRoutes.patch("/:eventId", EventController.updateEvent); 
 EventRoutes.delete("/:eventId", EventController.removeEvent);
 EventRoutes.post("/register/:eventId",parseJWT,EventController.addUser);
+EventRoutes.post("/unRegister/:eventId",parseJWT,EventController.removeUser);
 
 module.exports = EventRoutes;
