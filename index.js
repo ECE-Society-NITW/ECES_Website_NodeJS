@@ -24,4 +24,4 @@ app.use("/api/users", UserRoutes)
 
 // Initial Connections
 const PORT = process.env.PORT
-app.listen(PORT, () => console.log(`Server started at PORT : ${PORT}`))
+const server = app.listen(PORT, () => console.log(`Server started at PORT : ${server.address().port}`))

@@ -1,3 +1,5 @@
 node_modules/
 .env
 py\ scripts/
+
+pnpm-lock.yaml
