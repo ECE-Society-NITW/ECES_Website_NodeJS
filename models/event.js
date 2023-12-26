@@ -7,6 +7,12 @@ const registeredUserSchema = new Schema({
   name: { type: String, required: true },
 });
 
+const feedbackUserSchema = new Schema({
+  email: { type: String, required: true },
+  rating: { type: Number, required: true },
+  comments: {type: String, default:""},
+});
+
 const eventSchema = new Schema({
   event_id: { type: String, unique: true },
   title: { type: String, required: true },
@@ -17,7 +23,9 @@ const eventSchema = new Schema({
   targetAudience: { type: Number, default: 0 },
   createdOn: { type: Date },
   registeredUsers: [registeredUserSchema],
+  feedbacks: [feedbackUserSchema],
 });
+
 eventSchema.pre('save', function (next) {
   if (this.isNew) {
     this.event_id = uuid.v1(); 
