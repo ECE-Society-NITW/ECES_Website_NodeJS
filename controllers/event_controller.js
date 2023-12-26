@@ -135,6 +135,32 @@ const EventController = {
     } catch (ex) {
       return res.json({ success: false, message: ex })
     }
+  },
+  addFeedback: async function (req, res) { 
+    try {
+      const { email } = req.body.user;
+      const { comments, rating } = req.body;
+      const event_id = req.params.eventId;
+      const event = await EventModel.findOne({ event_id });
+      if (!event)
+        return res.json({ success: false, message: "Event not found" });
+      // add to feedbacks array
+      const updateEvent = await EventModel.findOneAndUpdate(
+        { event_id },
+        {
+          $push: { feedbacks: { email, comments, rating } }
+        },
+        { new: true }
+      );
+        
+      console.log(updateEvent);
+      return res.json({
+        success: true,
+        message: `Feedback added to ${updateEvent.title}`,
+      });
+    } catch (ex) {
+      return res.json({ success: false, message: ex });
+    }
   }
 }
 
