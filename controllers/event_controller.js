@@ -80,8 +80,6 @@ const EventController = {
     try {
       const { email, name } = req.body.user
       const event_id = req.params.eventId
-      const teammates = req.body.teammates
-
       const isUserRegistered = await EventModel.exists({
         event_id,
         'registeredUsers.email': email,
@@ -93,10 +91,9 @@ const EventController = {
           message: 'Already registered!',
         })
       }
-
       const updatedEvent = await EventModel.findOneAndUpdate(
         { event_id },
-        { $push: { registeredUsers: { email, name, teammates } } },
+        { $push: { registeredUsers: { email, name } } },
         { new: true }
       )
 
@@ -108,12 +105,8 @@ const EventController = {
         success: true,
         message: `Successfully registered to ${updatedEvent.title}`,
       })
-    } catch (error) {
-      console.error('Error in addUser:', error.message)
-      return res.status(500).json({
-        success: false,
-        message: 'An error occurred while registering for the event',
-      })
+    } catch (ex) {
+      return res.json({ success: false, message: ex })
     }
   },
   removeUser: async function (req, res) {
@@ -143,14 +136,14 @@ const EventController = {
       return res.json({ success: false, message: ex })
     }
   },
-  addFeedback: async function (req, res) {
+  addFeedback: async function (req, res) { 
     try {
-      const { email } = req.body.user
-      const { comments, rating } = req.body
-      const event_id = req.params.eventId
-      const event = await EventModel.findOne({ event_id })
+      const { email } = req.body.user;
+      const { comments, rating } = req.body;
+      const event_id = req.params.eventId;
+      const event = await EventModel.findOne({ event_id });
       if (!event)
-        return res.json({ success: false, message: "Event not found" })
+        return res.json({ success: false, message: "Event not found" });
       // add to feedbacks array
       const updateEvent = await EventModel.findOneAndUpdate(
         { event_id },
@@ -158,13 +151,15 @@ const EventController = {
           $push: { feedbacks: { email, comments, rating } }
         },
         { new: true }
-      )
+      );
+        
+      console.log(updateEvent);
       return res.json({
         success: true,
         message: `Feedback added to ${updateEvent.title}`,
-      })
+      });
     } catch (ex) {
-      return res.json({ success: false, message: ex })
+      return res.json({ success: false, message: ex });
     }
   }
 }
