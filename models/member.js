@@ -10,7 +10,7 @@ const memberSchema = new Schema({
     pic: { type: String, required: true },
     github: { type: String },
     insta: { type: String },
-    linkdein: { type: String }
+    linkedin: { type: String }
 })
 
 const Member = model('Member', memberSchema)
