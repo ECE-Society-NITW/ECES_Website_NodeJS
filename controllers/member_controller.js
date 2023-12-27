@@ -1,4 +1,4 @@
-const Member = require("../models/Member")
+const Member = require("../models/member")
 
 const memberController = {
     getAllMembers: (req, res) => {
@@ -10,7 +10,7 @@ const memberController = {
                 console.log(err)
             })
         }
-        catch(err){
+        catch(err){s
             console.log(err)
         }
     }
