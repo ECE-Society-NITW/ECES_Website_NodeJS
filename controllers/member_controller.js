@@ -2,12 +2,17 @@ const Member = require("../models/Member")
 
 const memberController = {
     getAllMembers: (req, res) => {
-        Member.find({}).then(data => {
-            res.json({ success: true, data })
-        }).catch(err => {
-            res.json({ success: false, err })
+        try{
+            Member.find({}).then(data => {
+                res.json({ success: true, data })
+            }).catch(err => {
+                res.json({ success: false, err })
+                console.log(err)
+            })
+        }
+        catch(err){
             console.log(err)
-        })
+        }
     }
 }
 
