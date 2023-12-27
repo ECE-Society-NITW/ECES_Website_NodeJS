@@ -10,7 +10,7 @@ const memberController = {
                 console.log(err)
             })
         }
-        catch(err){s
+        catch(err){
             console.log(err)
         }
     }
