@@ -1,4 +1,4 @@
-const Member = require("../models/Member")
+const Member = require("../models/member")
 
 const memberController = {
     getAllMembers: (req, res) => {
