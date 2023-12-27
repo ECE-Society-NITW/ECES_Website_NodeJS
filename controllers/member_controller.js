@@ -1,7 +1,7 @@
 const Member = require("../models/Member")
 
 const memberController = {
-    getAllMembers: (req, res) => {
+    getAllMembers: async (req, res) => {
         try{
             Member.find({}).then(data => {
                 res.json({ success: true, data })
