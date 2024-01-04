@@ -20,9 +20,11 @@ app.use(express.urlencoded({ extended: true }));
 const EventRoutes = require('./routes/event_routes');
 const UserRoutes = require('./routes/user_routes')
 const MemberRoutes = require('./routes/member_routes')
+const { googleDriveRouter } = require('./routes/google_drive_route')
 app.use("/api/events", EventRoutes)
 app.use("/api/users", UserRoutes)
 app.use("/api/members", MemberRoutes)
+app.use("/api/google_drive", googleDriveRouter)
 
 // Initial Connections
 const PORT = process.env.PORT
