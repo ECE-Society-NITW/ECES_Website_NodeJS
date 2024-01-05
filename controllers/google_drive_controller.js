@@ -1,77 +1,49 @@
-const fs = require('fs').promises;
-const path = require('path');
-const process = require('process');
-const {authenticate} = require('@google-cloud/local-auth');
-const { google } = require('googleapis');
+const process = require('process')
+const fs = require('fs').promises
+const path = require('path')
+const {google} = require('googleapis')
+const authorize = require('../utils/authenticateGoogle')
 
-// api tokens
-const SCOPES = ['https://www.googleapis.com/auth/drive.readonly'];
-const TOKEN_PATH = path.join(process.cwd(), 'utils/token.json');
-const CREDENTIALS_PATH = path.join(process.cwd(), 'utils/credentials.json');
+///////////////////////////////////AUTHORIZATION/////////////////////////////////////////
 
-async function loadSavedCredentialsIfExist() {
-  try {
-    const content = await fs.readFile(TOKEN_PATH);
-    const credentials = JSON.parse(content);
-    return google.auth.fromJSON(credentials);
-  } catch (err) {
-    return null;
-  }
+async function getDrive() {
+    try {
+        const authClient = await authorize()
+        return await google.drive({
+            version:'v3',
+            auth: authClient
+        })
+    } catch (error) {
+        console.error('Error: ', error)
+    }
 }
 
-async function saveCredentials(client) {
-  const content = await fs.readFile(CREDENTIALS_PATH);
-  const keys = JSON.parse(content);
-  const key = keys.installed || keys.web;
-  const payload = JSON.stringify({
-    type: 'authorized_user',
-    client_id: key.client_id,
-    client_secret: key.client_secret,
-    refresh_token: client.credentials.refresh_token,
-  });
-  await fs.writeFile(TOKEN_PATH, payload);
-}
-
-
-async function authorize() {
-  let client = await loadSavedCredentialsIfExist();
-  if (client) {
-    return client;
-  }
-  client = await authenticate({
-    scopes: SCOPES,
-    keyfilePath: CREDENTIALS_PATH,
-  });
-  if (client.credentials) {
-    await saveCredentials(client);
-  }
-  return client;
-}
-
-
-const getDrive = async () => {
-    const authClient = await authorize()
-    const drive = google.drive({version: 'v3', auth: authClient})
-    return drive
-}
+///////////////////////////////////////////////////////////////////////////////////
 
 const fetchFileIdList = async (folderId, pageToken, pageSize, folder=false) => {
     /*
-        fetch function 
+        fetch function
     */
     const drive = await getDrive()
     const response = await drive.files.list({
         q: `'${folderId}' in parents`,
         fields: 'nextPageToken, files(id, name, mimeType)',
         pageToken: pageToken || null,
-        pageSize: pageSize || 100
+        pageSize: pageSize || 15
         });
     
-    const folders = await response.body.files.filter(file => file.mimeType === folder ? 'application/vnd.google-apps.folder' : null)
-    return ({
-        folders: folders,
-        nextPageToken: response.body.nextPageToken
-    })
+    if (folder) {
+        const folders = await response.data.files.filter(file => file.mimeType === 'application/vnd.google-apps.folder')
+        return ({
+            folders: folders,
+            nextPageToken: response.data.nextPageToken || null
+        })
+    } else {
+        return ({
+            files: response.body.files,
+            nextPageToken: response.body.nextPageToken
+        })
+    }
 }
 
 const googleDriveController = {
@@ -89,7 +61,7 @@ const googleDriveController = {
                 name: str,
                 mimeType: str
                }],
-               nextPageToken: str
+               nextPageToken: str || null
             }
         */
        try {
@@ -117,7 +89,7 @@ const googleDriveController = {
                 name: str,
                 mimeType: str
                }],
-               nextPageToken: str
+               nextPageToken: str || null
             }
         */
         try {
@@ -149,7 +121,7 @@ const googleDriveController = {
                 name: str,
                 mimeType: str
                }],
-               nextPageToken: str
+               nextPageToken: str || null
             }
         */
         try {
@@ -159,8 +131,6 @@ const googleDriveController = {
             const pageSize = parsedReq.pageSize
             
             const response = await fetchFileIdList(folderId, pageToken, pageSize, false)
-            response.files = response.folders
-            delete response.folders
             res.json(response)
             
         } catch (err) {
@@ -183,7 +153,7 @@ const googleDriveController = {
                 name: str,
                 mimeType: str
                }],
-               nextPageToken: str
+               nextPageToken: str || null
             }
         */
         try {
@@ -208,7 +178,7 @@ const googleDriveController = {
             }
             res body type:
             {
-                webContentLink: str (url)
+                directly pipes the pdf as response!
             }
         */
        try{
@@ -217,10 +187,11 @@ const googleDriveController = {
             const response = await drive.files.get({
                 fileId: fileId,
                 alt: 'media'
-            })
-            res.json({
-                webContentLink: response.body.webContentLink
-            })
+            }, { responseType: 'stream' })
+            res.setHeader('Content-Type', 'application/pdf')
+            res.setHeader('Content-Disposition', 'inline; filename=response.pdf')
+            
+            response.data.pipe(res)
         } catch (err) {
             console.log(err);
             res.status(500).json({ error: 'Failed to retrieve folders' })

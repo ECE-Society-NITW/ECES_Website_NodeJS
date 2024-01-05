@@ -28,3 +28,13 @@ MONGO_DB = <Your_MongoDB_URI>
 ```bash
 npm run start
 ```
+---
+## To use googleAPIs:
+
+- Add creds.json in utils folder that was provided to you
+- Login with the eces email id in your browser
+- (Only Once!) Run `nodemon index.js` and wait for the authentication page to pop up.
+    - If successful, the auth will redirect you to http://localhost:3000/oauth2callback (yes, it will be port 3000)
+    - Once completed, a new file `token.json` will be added in he utils folder
+- Done!
+---

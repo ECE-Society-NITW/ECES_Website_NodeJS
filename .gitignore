@@ -5,3 +5,6 @@ py\ scripts/
 pnpm-lock.yaml
 
 todo.list
+
+utils/creds.json
+utils/token.json
